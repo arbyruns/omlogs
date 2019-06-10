@@ -1,9 +1,53 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>
-            <form action="https://prod-28.westcentralus.logic.azure.com:443/workflows/98b4fe55837c4f1595d4f5e8eff1d758/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=gZV6WGAgUCRCC8Etmohj_q8S8VgzACFvH_wLkdux4y4" method="post">
-                ADO Bug Number (e.g. 3154680):<br>
-                <input type="text" name="adoID" value="">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript">
+
+function doSearch() {
+  var idText = document.getElementById("inputAdoID").value;
+  var data = {"adoID": parseInt(idText)};
+  var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+  fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+      })
+      .then(function (response) { 
+        return response.json();
+      }).then(function (gymLinks) {
+            console.log("got the response from Flow");
+            console.log(gymLinks);
+
+            var ulElement = document.getElementById("gymLinkList");
+            for (var i = gymLinks.length - 1; i >= 0; i--) {
+              var url = gymLinks[i];
+              var itemElement = document.createElement("li");
+              var linkElement = document.createElement("a");
+              linkElement.href = url;
+              linkElement.innerText = url;
+              ulElement.appendChild(itemElement);
+              itemElement.appendChild(linkElement);
+            }
+          }
+        );
+}
+
+</script>
+
+</head>
+
+
+<body>
+                ADO Bug Number (e.g. 3354775):<br>
+                <input type="text" name="adoID" id="inputAdoID" value="">
                 <br>
-                <input type="submit" value="Search">
-            </form>
-    </body></html>
+                <input type="button" value="Search" onclick="doSearch()">
+
+                <!-- the output from flow will go here -->
+                <ul id="gymLinkList">
+                </ul>
+            
+    </body>
+</html>

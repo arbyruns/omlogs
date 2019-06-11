@@ -9,11 +9,6 @@ function showSpinner (show){
   spinner.style.display=show;
 }
 
-function disableButton (isdisable){
-  var spinner = document.getElementById("searchbutton");
-  spinner.style.display=disable;
-}
-
 function doSearch() {
   showSpinner("block"); 
   var idText = document.getElementById("inputAdoID").value;
@@ -65,7 +60,7 @@ function doSearch() {
         <br>
         <input type="text" name="adoID" id="inputAdoID" value="">
         <br>
-        <input id=searchbutton type="button" value="Search" onclick="doSearch()" >
+        <input type="button" value="Search" onclick="doSearch()" >
         <!-- the output from flow will go here -->
         <div id="notes">
         <br>

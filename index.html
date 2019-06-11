@@ -5,7 +5,13 @@
 <script type="text/javascript" src="js/loading-bar.js"></script>
 <script type="text/javascript">
 
+function showSpinner (show){
+  var spinner = document.getElementById("spinner");
+  spinner.style.display=show;
+}
+
 function doSearch() {
+  showSpinner("block");
   var idText = document.getElementById("inputAdoID").value;
   var data = {"adoID": parseInt(idText)};
   var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
@@ -21,6 +27,7 @@ function doSearch() {
       .then(function (response) { 
         return response.json();
       }).then(function (gymLinks) {
+            showSpinner("none");
             console.log("got the response from Flow");
             console.log(gymLinks);
             document.getElementById("gymCount").innerText += gymLinks.length;
@@ -61,6 +68,7 @@ function doSearch() {
         <br>
         Note: Depending on the amount of bugs it could take a minute for results to post.
       </div>
+      <img src="loading.gif" id="spinner" style="display: none">
       <br>
       <div id="linkcount">
         <p id="gymCount">Total Links:  </p>

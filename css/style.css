@@ -40,7 +40,7 @@ input[type=button]{
 input[type=button]:hover {
   background-color: #e6e6e6;
 }
-div#gym-count{
+div#linkcount{
   font-size: 16px;
   font-weight: bold;
 }

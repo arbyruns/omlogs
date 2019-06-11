@@ -53,3 +53,9 @@ div#notes{
   position: relative;
   left: 150px;
 }
+#inputAdoID {
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    margin: 8px 0;

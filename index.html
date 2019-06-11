@@ -22,6 +22,8 @@ function doSearch() {
       }).then(function (gymLinks) {
             console.log("got the response from Flow");
             console.log(gymLinks);
+            document.getElementById("gymCount").innerText += gymLinks.length;
+            console.log(gymLinks.length)
 
             var ulElement = document.getElementById("gymLinkList");
             for (var i = gymLinks.length - 1; i >= 0; i--) {
@@ -44,7 +46,8 @@ function doSearch() {
             OM Log Collector
         </div>
     </div>
-    <div id="loader" <div class="loader">
+    <div id="loader"> 
+      <div class="loader">
 
         ADO Bug Number (e.g. 3354775):
         <br>
@@ -52,10 +55,15 @@ function doSearch() {
         <br>
         <input type="button" value="Search" onclick="doSearch()">
         <!-- the output from flow will go here -->
-        <br>  
-        Things to come: Loading screen when search is clicked. Number of results.
+        <div id="notes">
+        Things to come: Loading screen when search is clicked.
         <br>
         Note: Depending on the amount of bugs it could take a minute for results to post.
+      </div>
+      <br>
+        <div id="gymCount">
+        <p id="gymCount">Total Links:  </p>
+      </div>
         <ul id="gymLinkList">
         </ul>
     </div>

@@ -40,3 +40,9 @@ input[type=button]{
 input[type=button]:hover {
   background-color: #e6e6e6;
 }
+div#gym-count{
+  font-size: 14px
+}
+div#notes{
+  font-size: 12px;
+}

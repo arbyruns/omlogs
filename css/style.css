@@ -40,10 +40,16 @@ input[type=button]{
 input[type=button]:hover {
   background-color: #e6e6e6;
 }
-div#linkcount{
+#gymCount{
   font-size: 16px;
   font-weight: bold;
 }
 div#notes{
   font-size: 12px;
+}
+#spinner{
+  height: 100px;
+  width: 100px;
+  position: relative;
+  left: 150px;
 }

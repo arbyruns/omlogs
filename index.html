@@ -10,6 +10,7 @@ function showSpinner (show){
 }
 
 function doSearch() {
+  document.getElementById("gymCount").innerText = "Total Links: ";
   showSpinner("block"); 
   var idText = document.getElementById("inputAdoID").value;
   var data = {"adoID": parseInt(idText)};
@@ -31,7 +32,6 @@ function doSearch() {
             console.log(gymLinks);
             document.getElementById("gymCount").innerText += gymLinks.length;
             console.log(gymLinks.length)
-
             var ulElement = document.getElementById("gymLinkList");
             for (var i = gymLinks.length - 1; i >= 0; i--) {
               var url = gymLinks[i];
@@ -66,11 +66,9 @@ function doSearch() {
         <br>
         Note: Depending on the amount of bugs it could take a minute for results to post.
       </div>
-      <img src="loading.gif" id="spinner" style="display: none">
+      <img src="loading.gif" id="spinner" style="display: none" >
       <br>
-      <div id="linkcount">
-        <p id="gymCount">Total Links:  </p>
-      </div>
+      <p id="gymCount">Total Links:  </p>
         <ul id="gymLinkList">
         </ul>
     </div>

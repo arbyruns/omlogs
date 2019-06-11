@@ -2,7 +2,6 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel = "stylesheet" type = "text/css" href = "css/style.css" />
 <title>OM Logs</title>
-<script type="text/javascript" src="js/loading-bar.js"></script>
 <script type="text/javascript">
 
 function showSpinner (show){
@@ -10,8 +9,13 @@ function showSpinner (show){
   spinner.style.display=show;
 }
 
+function disableButton (isdisable){
+  var spinner = document.getElementById("searchbutton");
+  spinner.style.display=disable;
+}
+
 function doSearch() {
-  showSpinner("block");
+  showSpinner("block"); 
   var idText = document.getElementById("inputAdoID").value;
   var data = {"adoID": parseInt(idText)};
   var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
@@ -61,10 +65,9 @@ function doSearch() {
         <br>
         <input type="text" name="adoID" id="inputAdoID" value="">
         <br>
-        <input type="button" value="Search" onclick="doSearch()">
+        <input id=searchbutton type="button" value="Search" onclick="doSearch()" >
         <!-- the output from flow will go here -->
         <div id="notes">
-        Things to come: Loading screen when search is clicked.
         <br>
         Note: Depending on the amount of bugs it could take a minute for results to post.
       </div>

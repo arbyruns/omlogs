@@ -1,74 +1,82 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel = "stylesheet" type = "text/css" href = "css/style.css" />
-<title>OM Logs</title>
-<script type="text/javascript">
+<html>
 
-function showSpinner (show){
-  var spinner = document.getElementById("spinner");
-  spinner.style.display=show;
-}
-
-function doSearch() {
-  document.getElementById("gymCount").innerText = "Total Links: ";
-  showSpinner("block"); 
-  var idText = document.getElementById("inputAdoID").value;
-  var data = {"adoID": parseInt(idText)};
-  var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
-  //clear old content out
-  document.getElementById("gymLinkList").innerText = "";
-  fetch(url, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <title>OM Logs</title>
+  <script type="text/javascript">
+    //loading spinner
+    function showSpinner(show) {
+      var spinner = document.getElementById("spinner");
+      spinner.style.display = show;
+    }
+    //kicks off Flow request to helpshift and will wait for a response.  
+    //Depending on how much data we return I've seen us timeout waiting for the response.
+    function doSearch() {
+      document.getElementById("gymCount").innerText = "Total Links: ";
+      showSpinner("block");
+      var idText = document.getElementById("inputAdoID").value;
+      var data = { "adoID": parseInt(idText) };
+      //url is hardcoded from flow
+      var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+      //clear old content out so we're not concating results on each run. 
+      document.getElementById("gymLinkList").innerText = "";
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
-      .then(function (response) { 
-        return response.json();
-      }).then(function (gymLinks) {
-            showSpinner("none");
-            console.log("got the response from Flow");
-            console.log(gymLinks);
-            document.getElementById("gymCount").innerText += gymLinks.length;
-            console.log(gymLinks.length)
-            var ulElement = document.getElementById("gymLinkList");
-            for (var i = gymLinks.length - 1; i >= 0; i--) {
-              var url = gymLinks[i];
-              var itemElement = document.createElement("li");
-              var linkElement = document.createElement("a");
-              linkElement.href = url;
-              linkElement.innerText = url;
-              ulElement.appendChild(itemElement);
-              itemElement.appendChild(linkElement);
-            }
+        .then(function (response) {
+          return response.json();
+        }).then(function (gymLinks) {
+          showSpinner("none");
+          console.log("got the response from Flow");
+          console.log(gymLinks);
+          document.getElementById("gymCount").innerText += gymLinks.length;
+          console.log(gymLinks.length)
+          //being parsing for list in body
+          var ulElement = document.getElementById("gymLinkList");
+          for (var i = gymLinks.length - 1; i >= 0; i--) {
+            var url = gymLinks[i];
+            var itemElement = document.createElement("li");
+            var linkElement = document.createElement("a");
+            linkElement.href = url;
+            linkElement.innerText = url;
+            ulElement.appendChild(itemElement);
+            itemElement.appendChild(linkElement);
           }
+        }
         );
-}
-</script>
+    }
+  </script>
 </head>
+
 <body>
-    <div id="banner">
-        <div id="banner-content">
-        <a>OM Log Collector</a>
-        </div>
+  <div id="banner">
+    <div id="banner-content">
+      <a>OM Log Collector</a>
     </div>
-    <div id="loader"> 
-      <div class="loader">
-        ADO Bug Number (e.g. 3354775):
-        <br>
-        <input type="text" name="adoID" id="inputAdoID" value="">
-        <br>
-        <input type="button" value="Search" onclick="doSearch()">
-        <!-- the output from flow will go here -->
-        <div id="notes">
-        Note: Depending on the amount of gymlinks it could take a minute for results to post.
-      </div>
-      <img src="loading.gif" id="spinner" style="display: none" >
+  </div>
+  <div id="loader">
+    <div class="loader">
+      <a>ADO Bug Number (e.g. 3354775):</a>
       <br>
-      <p id="gymCount">Total Links:  </p>
-        <ul id="gymLinkList">
-        </ul>
+      <input type="text" name="adoID" id="inputAdoID" value="">
+      <br>
+      <input type="button" value="Search" onclick="doSearch()" title="hello">
+      <div id="notes">
+        <a>Note: Depending on the amount of gymlinks it could take a minute for results to post.</a>
+      </div>
+      <!-- the output from flow will go here -->
+      <img src="loading.gif" id="spinner" style="display: none">
+      <br>
+      <p id="gymCount">Total Links: </p>
+      <ul id="gymLinkList">
+      </ul>
     </div>
 </body>
+
 </html>

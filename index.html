@@ -20,7 +20,7 @@
       var data = { "adoID": parseInt(idText) };
       //url is hardcoded from flow
       var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
-      //clear old content out so we're not concating results on each run. 
+      //clear old content out so we're not concating results on each run.
       document.getElementById("gymLinkList").innerText = "";
       fetch(url, {
         method: 'POST',
@@ -35,15 +35,16 @@
           showSpinner("none");
           console.log("got the response from Flow");
           console.log(gymLinks);
+          //log the number gym links we have
           document.getElementById("gymCount").innerText += gymLinks.length;
           console.log(gymLinks.length)
-          //being parsing for list in body
+          //begin parsing for list in body
           var ulElement = document.getElementById("gymLinkList");
           for (var i = gymLinks.length - 1; i >= 0; i--) {
-            var url = gymLinks[i];
+            var url= gymLinks[i];
             var itemElement = document.createElement("li");
-            var linkElement = document.createElement("a");
-            linkElement.href = url;
+            var linkElement = document.createElement("a");  
+            linkElement.href = url.substr(0,106);
             linkElement.innerText = url;
             ulElement.appendChild(itemElement);
             itemElement.appendChild(linkElement);

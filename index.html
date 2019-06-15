@@ -50,7 +50,8 @@
             var linkElement = document.createElement("a");  
             var verElement = document.createElement("a");  
             linkElement.href = url
-            linkElement.innerText += url + " - " +appVersion;
+            //linkElement.innerText += url + " - " +appVersion;
+            linkElement.innerText = url;
             //console.log(document.getElementById("appVersion") += appVersion);
             ulElement.appendChild(itemElement);
             itemElement.appendChild(linkElement);

@@ -41,11 +41,17 @@
           //begin parsing for list in body
           var ulElement = document.getElementById("gymLinkList");
           for (var i = gymLinks.length - 1; i >= 0; i--) {
-            var url= gymLinks[i];
+            //capture URL
+            var url = gymLinks[i].substr(0,106); 
+            //capture app version
+            var appVersion = gymLinks[i].substr(108,111);
+            console.log(appVersion);
             var itemElement = document.createElement("li");
             var linkElement = document.createElement("a");  
-            linkElement.href = url.substr(0,106);
-            linkElement.innerText = url;
+            var verElement = document.createElement("a");  
+            linkElement.href = url
+            linkElement.innerText += url + " - " +appVersion;
+            //console.log(document.getElementById("appVersion") += appVersion);
             ulElement.appendChild(itemElement);
             itemElement.appendChild(linkElement);
           }
@@ -75,7 +81,7 @@
       <img src="loading.gif" id="spinner" style="display: none">
       <br>
       <p id="gymCount">Total Links: </p>
-      <ul id="gymLinkList">
+      <ul id="gymLinkList"><a id="appVersion"></a>
       </ul>
     </div>
 </body>

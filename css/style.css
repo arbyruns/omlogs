@@ -72,3 +72,6 @@ div#notes {
 #li {
   padding: 2px;
 }
+td {
+  padding-left: 15px;
+}

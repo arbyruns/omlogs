@@ -1,90 +1,108 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <title>OM Logs</title>
+    <script type="text/javascript">
+      //loading spinner
+      function showSpinner(show) {
+        var spinner = document.getElementById("spinner");
+        spinner.style.display = show;
+      }
+      //kicks off Flow request to helpshift and will wait for a response.
+      //Depending on how much data we return I've seen us timeout waiting for the response.
+      function doSearch() {
+        document.getElementById("gymCount").innerText = "Total Links: ";
+        showSpinner("block");
+        var idText = document.getElementById("inputAdoID").value;
+        var data = { adoID: parseInt(idText) };
+        //clears the existing table
+        var Table = document.getElementById("myTable");
+        Table.innerHTML = "";
+        //url is hardcoded from flow
+        var url =
+          "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+        //clear old content out so we're not concating results on each run.
+        document.getElementById("gymLinkList").innerText = "";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(gymLinks) {
+            showSpinner("none");
+            console.log("got the response from Flow");
+            console.log(gymLinks);
+            //log the number gym links we have
+            document.getElementById("gymCount").innerText += gymLinks.length;
+            console.log(gymLinks.length);
+            //begin parsing for list in body
+            var ulElement = document.getElementById("gymLinkList");
+            for (var i = gymLinks.length - 1; i >= 0; i--) {
+              //capture URL
+              var url = gymLinks[i].substr(0, 106);
+              //capture app version
+              var appVersion = gymLinks[i].substr(108, 111);
+              //Creating the table
+              var table = document.getElementById("myTable");
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              //creating table elements
+              linkElement = document.createElement("a");
+              linkElement.setAttribute("href", url);
+              var linkText = document.createTextNode(url);
+              // //create table header - needs more work
+              // var theader = table.createTHead ();
+              // theader.innerHTML = '<tr><th>Gym Link</th><th>Version</th></tr>';
+              // linkElement.append(linkText);
+              cell1.innerHTML = '<a href="' + url + '">' + linkElement + "</a>";
+              cell2.innerHTML = appVersion;
+            }
+          });
+      }
+    </script>
+  </head>
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <title>OM Logs</title>
-  <script type="text/javascript">
-    //loading spinner
-    function showSpinner(show) {
-      var spinner = document.getElementById("spinner");
-      spinner.style.display = show;
-    }
-    //kicks off Flow request to helpshift and will wait for a response.  
-    //Depending on how much data we return I've seen us timeout waiting for the response.
-    function doSearch() {
-      document.getElementById("gymCount").innerText = "Total Links: ";
-      showSpinner("block");
-      var idText = document.getElementById("inputAdoID").value;
-      var data = { "adoID": parseInt(idText) };
-      //url is hardcoded from flow
-      var url = "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
-      //clear old content out so we're not concating results on each run.
-      document.getElementById("gymLinkList").innerText = "";
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(function (response) {
-          return response.json();
-        }).then(function (gymLinks) {
-          showSpinner("none");
-          console.log("got the response from Flow");
-          console.log(gymLinks);
-          //log the number gym links we have
-          document.getElementById("gymCount").innerText += gymLinks.length;
-          console.log(gymLinks.length)
-          //begin parsing for list in body
-          var ulElement = document.getElementById("gymLinkList");
-          for (var i = gymLinks.length - 1; i >= 0; i--) {
-            //capture URL
-            var url = gymLinks[i].substr(0,106); 
-            //capture app version
-            var appVersion = gymLinks[i].substr(108,111);
-            console.log(appVersion);
-            var itemElement = document.createElement("li");
-            var linkElement = document.createElement("a");  
-            var verElement = document.createElement("a");  
-            linkElement.href = url
-            //linkElement.innerText += url + " - " +appVersion;
-            linkElement.innerText = url;
-            //console.log(document.getElementById("appVersion") += appVersion);
-            ulElement.appendChild(itemElement);
-            itemElement.appendChild(linkElement);
-          }
-        }
-        );
-    }
-  </script>
-</head>
-
-<body>
-  <div id="banner">
-    <div id="banner-content">
-      <a>OM Log Collector</a>
-    </div>
-  </div>
-  <div id="loader">
-    <div class="loader">
-      <a>ADO Bug Number (e.g. 3354775):</a>
-      <br>
-      <input type="text" name="adoID" id="inputAdoID" value="">
-      <br>
-      <input type="button" value="Search" onclick="doSearch()" title="hello">
-      <div id="notes">
-        <a>Note: Depending on the amount of gymlinks it could take a minute for results to post.</a>
+  <body>
+    <div id="banner">
+      <div id="banner-content">
+        <a>OM Log Collector</a>
       </div>
-      <!-- the output from flow will go here -->
-      <img src="loading.gif" id="spinner" style="display: none">
-      <br>
-      <p id="gymCount">Total Links: </p>
-      <ul id="gymLinkList"><a id="appVersion"></a>
-      </ul>
     </div>
-</body>
-
+    <div id="loader">
+      <div class="loader">
+        <a>ADO Bug Number (e.g. 3354775):</a>
+        <br />
+        <input type="text" name="adoID" id="inputAdoID" value="" />
+        <br />
+        <input
+          type="button"
+          value="Search"
+          onclick="doSearch()"
+          title="hello"
+        />
+        <div id="notes">
+          <a
+            >Note: Depending on the amount of gymlinks it could take a minute
+            for results to post.</a
+          >
+        </div>
+        <!-- the output from flow will go here -->
+        <img src="loading.gif" id="spinner" style="display: none" />
+        <br />
+        <p id="gymCount">Total Links:</p>
+        <ul id="gymLinkList">
+          <a id="appVersion"></a>
+        </ul>
+        <table id="myTable"></table>
+      </div>
+    </div>
+  </body>
 </html>

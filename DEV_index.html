@@ -20,9 +20,10 @@
         //clears the existing table
         var Table = document.getElementById("myTable");
         Table.innerHTML = "";
-        //url is hardcoded from flow
+        //url is hardcoded from flow. 
+        //This is the DEV Link.
         var url =
-          "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+          "https://prod-06.westcentralus.logic.azure.com:443/workflows/b622d33ce80840c798842ffb1d22d539/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Vxt9qkcLaDUVGQ_6P1tzjTyy4vvtCHlLr9iykwZaH_0";
         //clear old content out so we're not concating results on each run.
         document.getElementById("gymLinkList").innerText = "";
         fetch(url, {

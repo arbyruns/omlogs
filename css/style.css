@@ -72,6 +72,15 @@ div#notes {
 #li {
   padding: 2px;
 }
-td {
-  padding-left: 15px;
+#myTable {
+  border-spacing: 0px;
+}
+#myTable td {
+  padding: 5px;
+}
+#myTable th {
+  font-size: 16px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-color: #ddd;
 }

@@ -10,11 +10,17 @@
         var spinner = document.getElementById("spinner");
         spinner.style.display = show;
       }
+      //copy results button function hide\show
+      function showCopyresults(show) {
+        var resultsbtn = document.getElementById("copyResultsBTN");
+        copyResultsBTN.style.display = show;
+      }
       //kicks off Flow request to helpshift and will wait for a response.
       //Depending on how much data we return I've seen us timeout waiting for the response.
       function doSearch() {
         document.getElementById("gymCount").innerText = "Total Links: ";
         showSpinner("block");
+        showCopyresults("none");
         var idText = document.getElementById("inputAdoID").value;
         var data = { adoID: parseInt(idText) };
         //clears the existing table
@@ -25,7 +31,6 @@
         var url =
           "https://prod-06.westcentralus.logic.azure.com:443/workflows/b622d33ce80840c798842ffb1d22d539/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Vxt9qkcLaDUVGQ_6P1tzjTyy4vvtCHlLr9iykwZaH_0";
         //clear old content out so we're not concating results on each run.
-        document.getElementById("gymLinkList").innerText = "";
         fetch(url, {
           method: "POST",
           headers: {
@@ -38,6 +43,7 @@
           })
           .then(function(gymLinks) {
             showSpinner("none");
+            showCopyresults("block");
             console.log("got the response from Flow");
             console.log(gymLinks);
             //log the number gym links we have
@@ -68,6 +74,13 @@
             }
           });
       }
+    // Copy results to clipboard function
+    function doCopyresults()
+    {
+      var copyText = myTable.innerText;
+      navigator.clipboard.writeText(copyText);
+      document.execCommand("copy");
+    }
     </script>
   </head>
 
@@ -83,26 +96,22 @@
         <br />
         <input type="text" name="adoID" id="inputAdoID" value="" />
         <br />
-        <input
-          type="button"
-          value="Search"
-          onclick="doSearch()"
-          title="hello"
-        />
+        <input type="button" value="Search" onclick="doSearch()" title="hello" />
         <div id="notes">
           <a
             >Note: Depending on the amount of gymlinks it could take a minute
             for results to post.</a>
-            <br>
-            <a>- 6/16 added app version to results.</a>
+            <br/>
+            <ul>
+              <li>6/16 - added app version</li>
+              <li>6/23 - added copy results button</li>
+            </ul>  
         </div>
         <!-- the output from flow will go here -->
         <img src="loading.gif" id="spinner" style="display: none" />
         <br />
         <p id="gymCount">Total Links:</p>
-        <ul id="gymLinkList">
-          <a id="appVersion"></a>
-        </ul>
+        <input id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />
         <table id="myTable"></table>
       </div>
     </div>

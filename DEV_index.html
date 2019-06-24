@@ -81,13 +81,24 @@
       navigator.clipboard.writeText(copyText);
       document.execCommand("copy");
     }
+    function whatsNewabout() {
+    alert(
+      'How to Use:\n' 
+      + "\t• Need additional logs from an escalation?\n"
+      + "\t• Paste ADO bug number into search box and will query Helpshift for additional PL incidents.\n"
+      + "\t• Give it a try using 3354775.\n"
+      + '----------------------------------\n'
+      + 'What\'s New:\n' 
+      + "\t• 6/16 - added app version to results. \n" 
+      + '\t• 6/23 - added ability to copy results. Added What\'s new screen. \n\n')
+    }
     </script>
   </head>
-
   <body>
     <div id="banner">
       <div id="banner-content">
-        <a>OM Log Collector</a>
+        <a href="https://omlogs.azurewebsites.net/">OM Log Collector</a>
+        <a href="javascript:whatsNewabout();">What's New - About</a>
       </div>
     </div>
     <div id="loader">
@@ -102,10 +113,6 @@
             >Note: Depending on the amount of gymlinks it could take a minute
             for results to post.</a>
             <br/>
-            <ul>
-              <li>6/16 - added app version</li>
-              <li>6/23 - added copy results button</li>
-            </ul>  
         </div>
         <!-- the output from flow will go here -->
         <img src="loading.gif" id="spinner" style="display: none" />

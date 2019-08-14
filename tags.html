@@ -3,15 +3,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <title>OM Logs</title>
+    <title>OM Logs - Tags</title>
     <script type="text/javascript">
       //loading spinner
       function showSpinner(show) {
         var spinner = document.getElementById("spinner");
         spinner.style.display = show;
       }
-        //copy results button function hide\show
-        function showCopyresults(show) {
+      //copy results button function hide\show
+      function showCopyresults(show) {
         var resultsbtn = document.getElementById("copyResultsBTN");
         copyResultsBTN.style.display = show;
       }
@@ -22,20 +22,22 @@
         showSpinner("block");
         showCopyresults("none");
         var idText = document.getElementById("inputAdoID").value;
-        var data = { adoID: parseInt(idText) };
+        console.log(idText);
+        var data = { tagID: parseInt(idText) };
         //clears the existing table
         var Table = document.getElementById("myTable");
         Table.innerHTML = "";
-        //url is hardcoded from flow
+        //url is hardcoded from flow. 
+        //This is the DEV Link.
         var url =
-          "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+          "https://prod-04.westcentralus.logic.azure.com:443/workflows/d64ae8c5a4234c829671b071b7cdfa51/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=BHlaLNDyWrckvFhrhqTN09ZfNiSfHcPqYcQfrH0H1E8";
         //clear old content out so we're not concating results on each run.
         fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(idText)
         })
           .then(function(response) {
             return response.json();
@@ -80,32 +82,19 @@
       navigator.clipboard.writeText(copyText);
       document.execCommand("copy");
     }
-    function whatsNewabout() {
-    alert(
-      'How to Use:\n' 
-      + "\t• Need additional logs from an escalation?\n"
-      + "\t• Paste ADO bug number into search box and will query Helpshift for additional PL incidents.\n"
-      + "\t• Give it a try using 3354775.\n"
-      + '----------------------------------\n'
-      + 'What\'s New:\n' 
-      + "\t• 6/16 - added app version to results. \n" 
-      + '\t• 6/23 - added ability to copy results. Added What\'s new screen. \n\n')
-    }
     </script>
   </head>
   <body>
     <div id="banner">
       <div id="banner-content">
         <a href="https://omlogs.azurewebsites.net/">OM Log Collector</a>
-        <a href="https://omlogs.azurewebsites.net/tags.html">Tags</a>
-        <a href="javascript:whatsNewabout();">What's New - About</a>
       </div>
     </div>
     <div id="loader">
       <div class="loader">
-        <a>ADO Bug Number (e.g. 3354775):</a>
+        <a>Helpshift Tag (e.g. pl_hxaccount):</a>
         <br />
-        <input type="text" name="adoID" id="inputAdoID" value="" />
+        <input type="text" name="tagID" id="inputAdoID" value="" />
         <br />
         <input type="button" value="Search" onclick="doSearch()" title="hello" />
         <div id="notes">

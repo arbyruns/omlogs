@@ -21,7 +21,8 @@
         document.getElementById("gymCount").innerText = "Total Links: ";
         showSpinner("block");
         showCopyresults("none");
-        var idText = document.getElementById("inputAdoID").value;
+        var userTag = document.getElementById("inputAdoID").value;
+        var idText = userTag.trim()
         console.log(idText);
         var data = { tagID: parseInt(idText) };
         //clears the existing table

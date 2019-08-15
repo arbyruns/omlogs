@@ -83,6 +83,13 @@
       navigator.clipboard.writeText(copyText);
       document.execCommand("copy");
     }
+    function whatsNewabout() {
+    alert(
+      'How to Use:\n' 
+      + "\t• Need additional logs from an escalation around a particular tag?\n"
+      + "\t• Paste the classifer tag\\label into search box and will query Helpshift for additional PL incidents.\n"
+      + "\t• Give it a try using vip0.\n")
+    }
     </script>
   </head>
   <body>
@@ -90,6 +97,7 @@
       <div id="banner-content">
         <a href="https://omlogs.azurewebsites.net/">OM Log Collector</a>
         <a href="https://omlogs.azurewebsites.net/">ADO Bug Logs</a>
+        <a href="javascript:whatsNewabout();">About</a>
       </div>
     </div>
     <div id="loader">

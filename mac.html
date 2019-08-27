@@ -18,7 +18,7 @@
       //kicks off Flow request to helpshift and will wait for a response.
       //Depending on how much data we return I've seen us timeout waiting for the response.
       function doSearch() {
-        document.getElementById("gymCount").innerText = "Total Links: ";
+        document.getElementById("hsCount").innerText = "Total Links: ";
         showSpinner("block");
         showCopyresults("none");
         var idText = document.getElementById("inputAdoID").value;
@@ -28,7 +28,7 @@
         Table.innerHTML = "";
         //url is hardcoded from flow
         var url =
-          "https://prod-06.westcentralus.logic.azure.com:443/workflows/9706f314a77a43cb99d21b7f98ec29ad/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkzbHDQ4RkOIEW_PXK6cP63eyGn2uEM95L7OwaBxixQ";
+          "https://prod-12.westcentralus.logic.azure.com:443/workflows/cfdedb5ff06a4645baa2fe7b2621186f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0l7MQ-pp5yXxrcZe8sGaj5JJvo80ffEmkC8xYbwBdXQ";
         //clear old content out so we're not concating results on each run.
         fetch(url, {
           method: "POST",
@@ -40,27 +40,28 @@
           .then(function(response) {
             return response.json();
           })
-          .then(function(gymLinks) {
+          .then(function(hsLinks) {
             showSpinner("none");
             showCopyresults("block");
             console.log("got the response from Flow");
-            console.log(gymLinks);
-            //log the number gym links we have
-            document.getElementById("gymCount").innerText += gymLinks.length;
-            console.log(gymLinks.length);
+            console.log(hsLinks);
+            //log the number Helpshift links we have
+            document.getElementById("hsCount").innerText += hsLinks.length;
+            console.log(hsLinks.length);
             //begin parsing for list in body
-            var ulElement = document.getElementById("gymLinkList");
+            var ulElement = document.getElementById("hsLinkList");
             //Creating the table
             var table = document.getElementById("myTable");
             //create table header 
             var theader = table.createTHead (0);
-            theader.innerHTML = '<tr><th>Gym Link</th><th>Version</th></tr>';              
-            for (var i = gymLinks.length - 1; i >= 0; i--) {
+            theader.innerHTML = '<tr><th>Helpshift Links</th></tr>';              
+            for (var i = hsLinks.length - 1; i >= 0; i--) {
               //capture URL
-              var url = gymLinks[i].substr(0, 106);
+              console.log(url);
+              var url = hsLinks[i];
               console.log(url);
               //capture app version
-              var appVersion = gymLinks[i].substr(108, 111);
+              //var appVersion = hsLinks[i].substr(108, 111);
               var row = table.insertRow(1);
               var cell1 = row.insertCell(0);
               var cell2 = row.insertCell(1);
@@ -68,9 +69,9 @@
               linkElement = document.createElement("a");
               linkElement.setAttribute("href", url);
               var linkText = document.createTextNode(url);
+              console.log(cell1);
               //linkElement.append(linkText);
               cell1.innerHTML = '<a href="' + url + '">' + linkElement + "</a>";
-              cell2.innerHTML = appVersion;
             }
           });
       }
@@ -111,14 +112,14 @@
         <input type="button" value="Search" onclick="doSearch()" title="hello" />
         <div id="notes">
           <a
-            >Note: Depending on the amount of gymlinks it could take a minute
+            >Note: Depending on the amount of links it could take a minute
             for results to post.</a>
             <br/>
         </div>
         <!-- the output from flow will go here -->
         <img src="loading.gif" id="spinner" style="display: none" />
         <br />
-        <p id="gymCount">Total Links:</p>
+        <p id="hsCount">Total Links:</p>
         <input id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />
         <table id="myTable"></table>
       </div>

@@ -61,8 +61,8 @@
             for (var i = gymLinks.length - 1; i >= 0; i--) {
               //capture URL
               var url = gymLinks[i].substr(0, 106);
-              //capture app version
-              var appVersion = gymLinks[i].substr(108, 111);
+              //capture app version & platform
+              var appVersion = gymLinks[i].substr(108, 130);
               var row = table.insertRow(1);
               var cell1 = row.insertCell(0);
               var cell2 = row.insertCell(1);

@@ -55,12 +55,15 @@
             var table = document.getElementById("myTable");
             //create table header 
             var theader = table.createTHead (0);
-            theader.innerHTML = '<tr><th>Gym Link</th><th>Version</th></tr>';              
+            theader.innerHTML = '<tr><th>Created Date</th><th>Gym Link</th><th>Version - Platform</th></tr>';              
             for (var i = gymLinks.length - 1; i >= 0; i--) {
+              //capture created date
+              var createdDate = gymLinks[i].substr(0, 10)
               //capture URL
-              var url = gymLinks[i].substr(0, 106);
-              //capture app version
-              var appVersion = gymLinks[i].substr(108, 130)
+              var url = gymLinks[i].substr(12, 108);
+              //capture app version & platform
+              var appVersion = gymLinks[i].substr(121, 130)
+
               var row = table.insertRow(1);
               var cell1 = row.insertCell(0);
               var cell2 = row.insertCell(1);

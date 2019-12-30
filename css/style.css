@@ -97,3 +97,24 @@ div#notes {
 #copyResultsBTN{
   top: -29px;
 }
+th {
+  cursor: pointer;
+}
+table {
+  border-spacing: 0;
+  width: 85%;
+  border: 1px solid #ddd;
+}
+
+th {
+  cursor: pointer;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}

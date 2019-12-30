@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <title>OM Logs</title>
+    <script type="text/javascript" src="js/sorttable.js"> </script>
     <script type="text/javascript">
       //loading spinner
       function showSpinner(show) {
@@ -54,7 +55,7 @@
             var table = document.getElementById("myTable");
             //create table header 
             var theader = table.createTHead (0);
-            theader.innerHTML = '<tr><th>Created Date</th><th>Gym Link</th><th>Version - Platform</th></tr>';              
+            theader.innerHTML = '<tr><th onclick="sortTable(0)">Created Date</th><th onclick="sortTable(1)">Gym Link</th><th onclick="sortTable(2)">Version - Platform</th></tr>';
             for (var i = gymLinks.length - 1; i >= 0; i--) {
               //capture created date
               var createdDate = gymLinks[i].substr(0, 10)

@@ -1,0 +1,38 @@
+#spinner {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  left: 150px;
+}
+#myTable {
+  border-spacing: 0px;
+}
+#myTable td {
+  padding: 5px;
+}
+#myTable th {
+  font-size: 16px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-color: #ddd;
+}
+#copyResultsBTN{
+  top: -29px;
+}
+th {
+  cursor: pointer;
+}
+table {
+  border-spacing: 0;
+  width: 85%;
+  border: 1px solid #ddd;
+}
+
+th {
+  cursor: pointer;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}

@@ -87,17 +87,6 @@
         navigator.clipboard.writeText(copyText);
         document.execCommand("copy");
       }
-      function whatsNewabout() {
-      alert(
-        'How to Use:\n' 
-        + "\t• Need additional logs from an escalation?\n"
-        + "\t• Paste ADO bug number into search box and will query Helpshift for additional PL incidents.\n"
-        + "\t• Give it a try using 3354775.\n"
-        + '----------------------------------\n'
-        + 'What\'s New:\n' 
-        + "\t• 6/16 - added app version to results. \n" 
-        + '\t• 6/23 - added ability to copy results. Added What\'s new screen. \n\n')
-      }
       </script>
     <!-- Bootstrap -->
 
@@ -112,43 +101,70 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+          
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="#">OM Log Collector <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="https://omlc.azurewebsites.net/">Work Item<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="https://omlc.azurewebsites.net/tags.html">Tags</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:whatsNewabout();">What's New</a>
-              </li>
             </ul>
-          </div>
         </nav>
         <br>
-        <div class="container"></div>
-        <div class="col-md-4 .hidden-xs .hidden-sm">
-          <!-- Content here -->
-          <h3>Enter ADO WI Number</h3>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="ADO WI Number" aria-label="ADO WI Number" aria-describedby="button-addon2" name="adoID" id="inputAdoID">
-            <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="doSearch()">Search</button>
+        <div class="container">
+          <div class="row">
+          <div class="col-sm">
+            <!-- Content here -->
+            <h3>Enter ADO WI Number</h3>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="ADO WI Number" aria-label="ADO WI Number" aria-describedby="button-addon2" name="adoID" id="inputAdoID">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="doSearch()">Search</button> 
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+                  ?
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Help?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          Need additional logs from an escalation?
+                          Paste the ADO bug number into search box and OM Log Collector will query Helpshift for additional PL incidents.
+                          Give it a try using 3354775.<br>
+                          Contact: <a href="mailto:robevans@microsoft.com">robevans@microsoft.com</a>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+            <p>Note: Will only return the 20 most recent links.  eg.3354775</p>
+            <img src="loading.gif" id="spinner" style="display: none" />
+            <p id="gymCount">Total Links:</p>
+            <input class="btn btn-dark" id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />
+            <br></br>
+            <!-- <button id="copyResultsBTN" type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false">Single toggle</button> -->
+            <table class="table" id="myTable">
+            </table>
           </div>
         </div>
       </div>
-      <div class="col-md-9 .hidden-xs .hidden-sm">
-        <p>Note: Will only return the 20 most recent links.  eg.3354775</p>
-        <img src="loading.gif" id="spinner" style="display: none" />
-        <p id="gymCount">Total Links:</p>
-        <input class="btn btn-dark" id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />
-        <br></br>
-        <!-- <button id="copyResultsBTN" type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false">Single toggle</button> -->
-        <table class="table" id="myTable">
-        </table>
-      </div>
-    </div>
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -156,7 +172,3 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
   </html>
-<script src="src/bootstrap/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="src/bootstrap/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
-
-</body></html>

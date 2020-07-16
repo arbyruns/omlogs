@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="src/css/style.css" />
+    <title>OM Logs - Tags</title>
+    <script type="text/javascript" src="src/js/sorttable.js"> </script>
+    <script type="text/javascript">
+      //loading spinner
+      function showSpinner(show) {
+        var spinner = document.getElementById("spinner");
+        spinner.style.display = show;
+      }
+      //copy results button function hide\show
+      function showCopyresults(show) {
+        var resultsbtn = document.getElementById("copyResultsBTN");
+        copyResultsBTN.style.display = show;
+      }
+      //kicks off Flow request to helpshift and will wait for a response.
+      //Depending on how much data we return I've seen us timeout waiting for the response.
+      function doSearch() {
+        document.getElementById("requestCount").innerText = "Total Links: ";
+        showSpinner("block");
+        showCopyresults("none");
+        var userTag = document.getElementById("inputAdoID").value;
+        var kustoGUIDS = [];
+        var idText = userTag.trim()
+        console.log(idText);
+        var data = { tagID: parseInt(idText) };
+        //clears the existing table
+        var Table = document.getElementById("myTable");
+        Table.innerHTML = "";
+        //url is hardcoded from flow. 
+        var url =
+          "https://prod-07.westcentralus.logic.azure.com:443/workflows/c224f4828902476ca9803316b815c487/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-6kWmMwUKbuL7bLjxBErjZcxUpEPKiKBAWT0FXoYQH0";
+        //clear old content out so we're not concating results on each run.
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(idText)
+        })
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(requestGUIDS) {
+            showSpinner("none");
+            showCopyresults("block");
+            console.log("got the response from Flow");
+            console.log(requestGUIDS);
+            //log the number gym links we have
+            document.getElementById("requestCount").innerText += requestGUIDS.length;
+            console.log(requestGUIDS.length);
+            //begin parsing for list in body
+            var ulElement = document.getElementById("gymLinkList");
+            //Creating the table
+            var table = document.getElementById("myTable");
+            //create table header 
+            var theader = table.createTHead (0);
+            theader.innerHTML = '<tr><th onclick="sortTable(0)">Created Date</th><th onclick="sortTable(1)">Request GUID</th></tr>';         
+            for (var i = requestGUIDS.length - 1; i >= 0; i--) {
+              //capture created date
+              var createdDate = requestGUIDS[i].substr(38, 17)
+              //capture RequestGUID
+              var requestGUID = requestGUIDS[i].substr(0, 36);
+              kustoGUIDS.push('requestGuid == ' + '"'+requestGUIDS[i].substr(0, 36)+'"');
+              console.log(kustoGUIDS)
+              var row = table.insertRow(1);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              //linkElement.append(linkText);
+              cell1.innerHTML = createdDate;
+              cell2.innerHTML = requestGUID;
+            }
+            console.log('this is the array ' + kustoGUIDS)
+            for (var i = requestGUIDS.length - 1; i >= 0; i--){
+
+            }
+          });
+      }
+    // Copy results to clipboard function
+    function doCopyresults()
+    {
+      var copyText = myTable.innerText;      
+      navigator.clipboard.writeText(copyText);
+      document.execCommand("copy");
+    }
+    function whatsNewabout() {
+    alert(
+      'How to Use:\n' 
+      + "\t• Need additional logs from an escalation around a particular tag?\n"
+      + "\t• Paste the classifer tag\\label into search box and will query Helpshift for additional PL incidents.\n"
+      + "\t• Give it a try using vip0.\n")
+    }
+    </script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="src/bootstrap/bootstrap.min.css">
+    <script src="src/bootstrap/query-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="src/bootstrap/bootstrap.min.js"></script>
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">OM Log Collector</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="https://omlc.azurewebsites.net/">Work Item</a>
+              </li>
+                <a class="nav-link" href="https://omlc.azurewebsites.net/tags.html">Tags <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://omlc.azurewebsites.net/mrs.html">MRS GUIDS</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <br>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <!-- Content here -->
+            <h3>Enter MRS Classifier Tag</h3>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="MRS Classifier Tag" aria-label="ADO WI Number" aria-describedby="button-addon2" name="tagID" id="inputAdoID">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="doSearch()">Search</button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+                    ?
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalCenterTitle">Help?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            Need additional logs from an escalation?
+                            Paste the classifer tag\label into search box and OM Log Collector will query Helpshift for additional PL incidents.
+                            Give it a try using pl_hxaccount.<br>
+                            Contact: <a href="mailto:robevans@microsoft.com">robevans@microsoft.com</a>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+            <p>Note: Will only return the 15 most recent logs.  eg. pl_cc_syncstatus_2</p>
+            <img src="loading.gif" id="spinner" style="display: none" />
+            <p id="requestCount">Total: </p>
+            <input class="btn btn-dark" id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />
+            <br></br>
+            <!-- <button id="copyResultsBTN" type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false">Single toggle</button> -->
+            <table class="table" id="myTable">
+            </table>
+          </div>
+        </div>
+        </div>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+  </html>

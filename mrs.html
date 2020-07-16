@@ -46,6 +46,15 @@
             var flowStatus = response.status;
             console.log(response.status);
             console.log("the flowstatus is " + flowStatus);
+            console.log(flowStatus);
+            if (flowStatus == 200) {
+              console.log("we should be here yo " + flowStatus);
+              showConfirm("block");
+            }
+            else {
+              console.log("ruh roh " + flowStatus);
+              showFail("block");
+            }
           })
           .then(function(requestGUIDS) {
             showSpinner("none");
@@ -163,6 +172,13 @@
           </div>
           <div class="row">
             <div class="col-sm">
+                      <!-- Failure to get RequestGUIDs-->
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="failBlock" style="display: none" >
+          Well this is embarrasing... Please Contact support.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
               <!-- User could have more than one account or more than one request was made. -->
             <p>Note: Will only return RequestGUID's for the last 15 users.</p>
             <img src="loading.gif" id="spinner" style="display: none" />

@@ -161,7 +161,8 @@
           </div>
           <div class="row">
             <div class="col-sm">
-            <p>Note: Will only return the 15 most recent logs.  eg. pl_cc_syncstatus_2</p>
+              <!-- User could have more than one account or more than one request was made. -->
+            <p>Note: Will only return RequestGUID's for the last 15 users.  eg. pl_cc_syncstatus_2</p>
             <img src="loading.gif" id="spinner" style="display: none" />
             <p id="requestCount">Total: </p>
             <input class="btn btn-dark" id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />

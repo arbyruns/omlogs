@@ -120,7 +120,7 @@
           <div class="row">
             <div class="col-sm">
               <!-- Content here -->
-            <h3>Enter MRS Classifier Tag</h3>
+            <h3>Enter MRS Classifier Tag or OM WI</h3>
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="MRS Classifier Tag" aria-label="ADO WI Number" aria-describedby="button-addon2" name="tagID" id="inputAdoID">
               <div class="input-group-append">
@@ -140,9 +140,10 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                            Need additional logs from an escalation?
-                            Paste the classifer tag\label into search box and OM Log Collector will query Helpshift for additional PL incidents.
-                            Give it a try using pl_hxaccount.<br>
+                            MRS GUIDs will provide the last 15 RequestGUID's based on either the tag or the Outlook Mobile escalation WI?
+                            Paste the classifer tag\label into search box or the WI and OM Log Collector will query Helpshift users for RequestGUID's. 
+                            Some users may have more than one RequestGUID.
+                            Give it a try using pl_cc_syncstatus_2.<br>
                             Contact: <a href="mailto:robevans@microsoft.com">robevans@microsoft.com</a>
                         </div>
                         <div class="modal-footer">
@@ -158,7 +159,7 @@
           <div class="row">
             <div class="col-sm">
               <!-- User could have more than one account or more than one request was made. -->
-            <p>Note: Will only return RequestGUID's for the last 15 users.  eg. pl_cc_syncstatus_2</p>
+            <p>Note: Will only return RequestGUID's for the last 15 users.</p>
             <img src="loading.gif" id="spinner" style="display: none" />
             <p id="requestCount">Total: </p>
             <input class="btn btn-dark" id="copyResultsBTN" type="button" value="Copy Results" onclick="doCopyresults()" title="hello" style="display: none" />

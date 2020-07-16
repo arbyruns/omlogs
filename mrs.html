@@ -43,6 +43,9 @@
         })
           .then(function(response) {
             return response.json();
+            var flowStatus = response.status;
+            console.log(response.status);
+            console.log("the flowstatus is " + flowStatus);
           })
           .then(function(requestGUIDS) {
             showSpinner("none");
